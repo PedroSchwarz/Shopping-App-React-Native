@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.View `
+export const Container = styled.View`
   margin: 8px 16px;
   background-color: ${props => props.color};
   border-color: ${props => props.borderColor};
@@ -11,21 +11,23 @@ export const Container = styled.View `
   elevation: 5;
 `;
 
-export const ProductImage = styled.Image `
+export const ProductImage = styled.Image`
   height: 300px;
 `;
 
-export const Content = styled.View `
+export const Content = styled.View`
   padding: 8px;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 `;
 
-export const Title = styled.Text `
+export const Title = styled.Text`
   color: ${props => props.textColor};
+  font-family: "raleway-regular";
 `;
 
-export const Price = styled.Text `
+export const Price = styled.Text`
   color: ${props => props.textColor};
+  font-family: "raleway-regular";
 `;

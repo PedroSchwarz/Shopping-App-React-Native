@@ -14,6 +14,7 @@ export const Content = styled.View`
 
 export const Header = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 `;
@@ -21,11 +22,13 @@ export const Header = styled.View`
 export const Title = styled.Text`
   font-size: 24px;
   color: ${props => props.textColor};
+  font-family: "raleway-regular";
 `;
 
 export const Price = styled.Text`
   font-size: 20px;
   color: ${props => props.textColor};
+  font-family: "raleway-regular";
 `;
 
 export const Divider = styled.View`
@@ -37,4 +40,5 @@ export const Divider = styled.View`
 export const Description = styled.Text`
   text-align: center;
   font-size: 20px;
+  font-family: "raleway-regular";
 `;
