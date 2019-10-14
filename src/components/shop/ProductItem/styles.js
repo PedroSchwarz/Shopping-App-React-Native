@@ -18,7 +18,7 @@ export const ProductImage = styled.Image`
 export const Content = styled.View`
   padding: 8px;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 `;
 

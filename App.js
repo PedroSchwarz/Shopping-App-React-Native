@@ -7,10 +7,14 @@ import { Provider } from "react-redux";
 
 import AppContainer from "./src/routes";
 import ProductReducer from "./src/store/reducers/products";
+import CartReducer from "./src/store/reducers/cart";
 
 useScreens();
 
-const rootRed = combineReducers({ products: ProductReducer });
+const rootRed = combineReducers({
+  products: ProductReducer,
+  cart: CartReducer
+});
 
 const store = createStore(rootRed);
 

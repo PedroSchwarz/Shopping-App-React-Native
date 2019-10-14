@@ -1,8 +1,8 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
+import * as CartActions from "../../../store/actions/cart";
 import {
   Container,
   ProductImage,
@@ -14,14 +14,22 @@ import {
   Description
 } from "./styles";
 import PriceTag from "../../../components/shop/PriceTag/PriceTag";
-import FloatingButton from "../../../components/shop/FloatingButton/FloatingButton";
+import FloatingButton from "../../../components/general/FloatingButton/FloatingButton";
 import Colors from "../../../constants/Colors";
 
 const ProductDetails = ({ navigation }) => {
   const productId = navigation.getParam("productId");
+
   const product = useSelector(state =>
     state.products.availableProducts.find(prod => prod.id === productId)
   );
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    const { id, title, price } = product;
+    dispatch(CartActions.addToCart({ id, title, price }));
+  };
 
   return (
     <ScrollView>
@@ -29,14 +37,13 @@ const ProductDetails = ({ navigation }) => {
         <View>
           <ProductImage source={{ uri: product.imageUrl }} />
           <FloatingButton
-            color={Colors.accent}
             size={48}
-            onPress={() => {
-              console.log("pressed");
-            }}
-          >
-            <MaterialIcons name="add" size={24} color={Colors.light} />
-          </FloatingButton>
+            color={Colors.accent}
+            icon="add-shopping-cart"
+            iconSize={24}
+            iconColor={Colors.light}
+            onPress={addToCart}
+          />
         </View>
         <Content>
           <Header>

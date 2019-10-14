@@ -1,8 +1,10 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import ProductItem from "../../components/shop/ProductItem/ProductItem";
+import CustomHeaderButton from "../../components/general/HeaderButton";
 
 const Products = ({ navigation }) => {
   const availableProducts = useSelector(
@@ -24,8 +26,18 @@ const Products = ({ navigation }) => {
   );
 };
 
-Products.navigationOptions = {
-  title: "Products Screen"
+Products.navigationOptions = ({ navigation }) => {
+  const goToCart = () => {
+    navigation.navigate("Cart");
+  };
+  return {
+    title: "Products Screen",
+    headerRight: (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item title="Cart" iconName="shopping-cart" onPress={goToCart} />
+      </HeaderButtons>
+    )
+  };
 };
 
 const styles = StyleSheet.create({
