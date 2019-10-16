@@ -36,7 +36,7 @@ const Cart = () => {
     </View>
   );
 
-  const renderList = ({ item }) => <CartItem {...item} />;
+  const renderList = ({ item }) => <CartItem {...item} editable={true} />;
 
   return (
     <View style={styles.container}>

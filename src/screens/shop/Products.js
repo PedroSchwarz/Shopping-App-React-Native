@@ -30,8 +30,18 @@ Products.navigationOptions = ({ navigation }) => {
   const goToCart = () => {
     navigation.navigate("Cart");
   };
+
+  const toggleDrawer = () => {
+    navigation.toggleDrawer();
+  };
+
   return {
     title: "Products Screen",
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item title="Menu" iconName="menu" onPress={toggleDrawer} />
+      </HeaderButtons>
+    ),
     headerRight: (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
         <Item title="Cart" iconName="shopping-cart" onPress={goToCart} />
