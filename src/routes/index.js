@@ -3,13 +3,15 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import Products from "../screens/shop/Products";
 import ProductDetails from "../screens/shop/ProductDetail/ProductDetails";
+import Cart from "../screens/shop/Cart/Cart";
 
 import Colors from "../constants/Colors";
 
 const productsStackNavigator = createStackNavigator(
   {
     Products: { screen: Products },
-    ProductDetails: { screen: ProductDetails }
+    ProductDetails: { screen: ProductDetails },
+    Cart: { screen: Cart }
   },
   {
     defaultNavigationOptions: {
