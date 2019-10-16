@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Summary, Divider } from "./styles";
 import CartItem from "../../../components/shop/CartItem/CartItem";
 import RoundedButton from "../../../components/general/RoundedButton/RoundedButton";
+
+import * as ordersAction from "../../../store/actions/orders";
 
 import Colors from "../../../constants/Colors";
 
@@ -19,6 +21,12 @@ const Cart = () => {
       itemA.itemId > itemB.itemId ? 1 : -1
     );
   });
+
+  const dispatch = useDispatch();
+
+  const addOrder = () => {
+    dispatch(ordersAction.addOrder(cartItems, cartTotal));
+  };
 
   const onEmptyList = () => (
     <View style={styles.emptyList}>
@@ -43,6 +51,7 @@ const Cart = () => {
             icon="check"
             iconSize={20}
             iconColor={Colors.light}
+            onPress={addOrder}
           />
         )}
       </Summary>
