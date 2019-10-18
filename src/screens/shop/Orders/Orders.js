@@ -17,7 +17,9 @@ const Orders = () => {
     </View>
   );
 
-  const renderList = ({ item }) => <OrderItem {...item} />;
+  const renderList = ({ item }) => (
+    <OrderItem {...item} date={item.convertedDate} />
+  );
 
   return (
     <View style={styles.container}>
