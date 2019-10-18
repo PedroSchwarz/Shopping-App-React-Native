@@ -8,6 +8,8 @@ import Products from "../screens/shop/Products";
 import ProductDetails from "../screens/shop/ProductDetail/ProductDetails";
 import Cart from "../screens/shop/Cart/Cart";
 import Orders from "../screens/shop/Orders/Orders";
+import UserProducts from "../screens/user/UserProducts";
+import EditProduct from "../screens/user/EditProduct";
 
 import Colors from "../constants/Colors";
 
@@ -50,10 +52,26 @@ const ordersStackNavigator = createStackNavigator(
   }
 );
 
+const userProductsStackNavigator = createStackNavigator(
+  {
+    UserProducts: { screen: UserProducts },
+    EditProduct: { screen: EditProduct }
+  },
+  {
+    defaultNavigationOptions,
+    navigationOptions: {
+      drawerIcon: drawerInfo => (
+        <MaterialIcons name="create" size={25} color={drawerInfo.tintColor} />
+      )
+    }
+  }
+);
+
 const shopDrawerNavigatior = createDrawerNavigator(
   {
     Products: productsStackNavigator,
-    Orders: ordersStackNavigator
+    Orders: ordersStackNavigator,
+    Admin: userProductsStackNavigator
   },
   {
     contentOptions: {

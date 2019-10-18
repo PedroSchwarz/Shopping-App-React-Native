@@ -12,7 +12,7 @@ const Products = ({ navigation }) => {
   );
 
   const renderList = ({ item }) => (
-    <ProductItem {...item} navigation={navigation} />
+    <ProductItem {...item} navigation={navigation} editable={false} />
   );
 
   return (

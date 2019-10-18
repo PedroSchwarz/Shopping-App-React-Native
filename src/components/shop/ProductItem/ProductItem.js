@@ -8,7 +8,15 @@ import PriceTag from "../PriceTag/PriceTag";
 import FloatingButton from "../../general/FloatingButton/FloatingButton";
 import Colors from "../../../constants/Colors";
 
-const ProductItem = ({ id, title, imageUrl, price, navigation }) => {
+const ProductItem = ({
+  id,
+  title,
+  imageUrl,
+  description,
+  price,
+  navigation,
+  editable
+}) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
@@ -22,20 +30,28 @@ const ProductItem = ({ id, title, imageUrl, price, navigation }) => {
     });
   };
 
+  const goToEdit = () => {
+    navigation.navigate("EditProduct", {
+      productData: { id, title, imageUrl, description, price }
+    });
+  };
+
   return (
     <Container color={Colors.grey} borderColor={Colors.grey}>
       <View>
         <ProductImage source={{ uri: imageUrl }} />
-        <FloatingButton
-          size={40}
-          color={Colors.accent}
-          icon="add-shopping-cart"
-          iconSize={20}
-          iconColor={Colors.light}
-          onPress={addToCart}
-        />
+        {!editable && (
+          <FloatingButton
+            size={40}
+            color={Colors.accent}
+            icon="add-shopping-cart"
+            iconSize={20}
+            iconColor={Colors.light}
+            onPress={addToCart}
+          />
+        )}
       </View>
-      <TouchableNativeFeedback onPress={goToDetails}>
+      <TouchableNativeFeedback onPress={editable ? goToEdit : goToDetails}>
         <Content>
           <Title textColor={Colors.accent}>{title}</Title>
           <PriceTag color={Colors.success}>
