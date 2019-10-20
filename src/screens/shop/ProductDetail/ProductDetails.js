@@ -2,7 +2,6 @@ import React from "react";
 import { View, ScrollView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import * as CartActions from "../../../store/actions/cart";
 import {
   Container,
   ProductImage,
@@ -16,6 +15,8 @@ import {
 import PriceTag from "../../../components/shop/PriceTag/PriceTag";
 import FloatingButton from "../../../components/general/FloatingButton/FloatingButton";
 import Colors from "../../../constants/Colors";
+
+import * as CartActions from "../../../store/actions/cart";
 
 const ProductDetails = ({ navigation }) => {
   const productId = navigation.getParam("productId");

@@ -9,6 +9,7 @@ import ProductDetails from "../screens/shop/ProductDetail/ProductDetails";
 import Cart from "../screens/shop/Cart/Cart";
 import Orders from "../screens/shop/Orders/Orders";
 import UserProducts from "../screens/user/UserProducts";
+import NewProduct from "../screens/user/NewProduct";
 import EditProduct from "../screens/user/EditProduct";
 
 import Colors from "../constants/Colors";
@@ -55,6 +56,7 @@ const ordersStackNavigator = createStackNavigator(
 const userProductsStackNavigator = createStackNavigator(
   {
     UserProducts: { screen: UserProducts },
+    NewProduct: { screen: NewProduct },
     EditProduct: { screen: EditProduct }
   },
   {

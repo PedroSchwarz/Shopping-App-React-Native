@@ -1,12 +1,15 @@
 import React from "react";
-import { View, TouchableNativeFeedback } from "react-native";
+import { View, TouchableNativeFeedback, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 
 import { Container, ProductImage, Content, Title, Price } from "./styles";
-import * as CartActions from "../../../store/actions/cart";
+
 import PriceTag from "../PriceTag/PriceTag";
 import FloatingButton from "../../general/FloatingButton/FloatingButton";
 import Colors from "../../../constants/Colors";
+
+import * as CartActions from "../../../store/actions/cart";
+import * as ProductsActions from "../../../store/actions/products";
 
 const ProductItem = ({
   id,
@@ -23,6 +26,18 @@ const ProductItem = ({
     dispatch(CartActions.addToCart({ id, title, price }));
   };
 
+  const removeProduct = () => {
+    Alert.alert("Are You Sure?", "This product will be delete forever.", [
+      { text: "No" },
+      {
+        text: "Yes",
+        onPress: () => {
+          dispatch(ProductsActions.deleteProduct(id));
+        }
+      }
+    ]);
+  };
+
   const goToDetails = () => {
     navigation.navigate("ProductDetails", {
       productId: id,
@@ -32,7 +47,7 @@ const ProductItem = ({
 
   const goToEdit = () => {
     navigation.navigate("EditProduct", {
-      productData: { id, title, imageUrl, description, price }
+      productData: { id, title, imageUrl, description }
     });
   };
 
@@ -40,7 +55,7 @@ const ProductItem = ({
     <Container color={Colors.grey} borderColor={Colors.grey}>
       <View>
         <ProductImage source={{ uri: imageUrl }} />
-        {!editable && (
+        {!editable ? (
           <FloatingButton
             size={40}
             color={Colors.accent}
@@ -48,6 +63,15 @@ const ProductItem = ({
             iconSize={20}
             iconColor={Colors.light}
             onPress={addToCart}
+          />
+        ) : (
+          <FloatingButton
+            size={40}
+            color={Colors.error}
+            icon="cancel"
+            iconSize={20}
+            iconColor={Colors.light}
+            onPress={removeProduct}
           />
         )}
       </View>

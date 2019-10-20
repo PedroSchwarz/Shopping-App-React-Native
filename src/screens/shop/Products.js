@@ -11,6 +11,12 @@ const Products = ({ navigation }) => {
     state => state.products.availableProducts
   );
 
+  const onEmptyList = () => (
+    <View style={styles.emptyList}>
+      <Text style={styles.emptyListWarning}>No products added yet!</Text>
+    </View>
+  );
+
   const renderList = ({ item }) => (
     <ProductItem {...item} navigation={navigation} editable={false} />
   );
@@ -19,8 +25,9 @@ const Products = ({ navigation }) => {
     <View style={styles.container}>
       <FlatList
         data={availableProducts}
-        renderItem={renderList}
         keyExtractor={product => product.id}
+        renderItem={renderList}
+        ListEmptyComponent={onEmptyList}
       />
     </View>
   );
@@ -53,6 +60,15 @@ Products.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  emptyList: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 16
+  },
+  emptyListWarning: {
+    fontSize: 18,
+    fontFamily: "raleway-regular"
   }
 });
 

@@ -6,7 +6,7 @@ import { Summary, Divider } from "./styles";
 import CartItem from "../../../components/shop/CartItem/CartItem";
 import RoundedButton from "../../../components/general/RoundedButton/RoundedButton";
 
-import * as ordersAction from "../../../store/actions/orders";
+import * as OrdersAction from "../../../store/actions/orders";
 
 import Colors from "../../../constants/Colors";
 
@@ -25,7 +25,7 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const addOrder = () => {
-    dispatch(ordersAction.addOrder(cartItems, cartTotal));
+    dispatch(OrdersAction.addOrder(cartItems, cartTotal));
   };
 
   const onEmptyList = () => (
