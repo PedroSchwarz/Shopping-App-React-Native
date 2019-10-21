@@ -1,14 +1,16 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { View, TextInput, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import useInputState from "../../hooks/useInputState";
-import * as ProductsActions from "../../store/actions/products";
+import inputValidator from "../../../helpers/inputValidator";
 
-import CustomHeaderButton from "../../components/general/HeaderButton";
+import { InputContainer, Label, Input } from "./styles";
+import CustomHeaderButton from "../../../components/general/HeaderButton";
+import InputValidation from "../../../components/general/InputValidation/InputValidation";
 
-import Colors from "../../constants/Colors";
+import useInputState from "../../../hooks/useInputState";
+import * as ProductsActions from "../../../store/actions/products";
 
 const NewProduct = ({ navigation }) => {
   const [title, changeTitle] = useInputState("");
@@ -16,13 +18,27 @@ const NewProduct = ({ navigation }) => {
   const [price, changePrice] = useInputState("");
   const [imageUrl, changeImageUrl] = useInputState("");
 
+  const titleValidation = inputValidator(title, true, 10, 20);
+  const descriptionValidation = inputValidator(description, true, 20, 100);
+  const priceValidation = inputValidator(price, true, null, null);
+  const imageValidation = inputValidator(imageUrl, true, null, null);
+
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
-    dispatch(
-      ProductsActions.createProduct(title, description, imageUrl, price)
-    );
-    navigation.pop();
+    if (
+      !titleValidation.valid ||
+      !descriptionValidation.valid ||
+      !priceValidation.valid ||
+      !imageValidation.valid
+    )
+      return;
+    else {
+      dispatch(
+        ProductsActions.createProduct(title, description, imageUrl, price)
+      );
+      navigation.pop();
+    }
   }, [title, description, price, imageUrl]);
 
   useEffect(() => {
@@ -32,18 +48,19 @@ const NewProduct = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+        <InputContainer>
+          <Label>Title</Label>
+          <Input
             placeholder="Title..."
             autoCapitalize="words"
             value={title}
             onChangeText={changeTitle}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+          <InputValidation validation={titleValidation} />
+        </InputContainer>
+        <InputContainer>
+          <Label>Description</Label>
+          <Input
             placeholder="Description..."
             autoCapitalize="sentences"
             multiline
@@ -51,24 +68,27 @@ const NewProduct = ({ navigation }) => {
             value={description}
             onChangeText={changeDescription}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+          <InputValidation validation={descriptionValidation} />
+        </InputContainer>
+        <InputContainer>
+          <Label>Price</Label>
+          <Input
             placeholder="Price..."
             keyboardType="number-pad"
             value={price}
             onChangeText={changePrice}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+          <InputValidation validation={priceValidation} />
+        </InputContainer>
+        <InputContainer>
+          <Label>Image URL</Label>
+          <Input
             placeholder="Image..."
             value={imageUrl}
             onChangeText={changeImageUrl}
           />
-        </View>
+          <InputValidation validation={imageValidation} />
+        </InputContainer>
       </View>
     </ScrollView>
   );
@@ -90,18 +110,6 @@ NewProduct.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  inputContainer: {
-    marginHorizontal: 16,
-    marginVertical: 8
-  },
-  input: {
-    fontSize: 18,
-    fontFamily: "raleway-regular",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderBottomColor: Colors.accent,
-    borderBottomWidth: 1
   }
 });
 

@@ -1,25 +1,31 @@
 import React, { useEffect, useCallback } from "react";
-import { View, TextInput, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
-import useInputState from "../../hooks/useInputState";
+import useInputState from "../../../hooks/useInputState";
+import inputValidator from "../../../helpers/inputValidator";
 
-import CustomHeaderButton from "../../components/general/HeaderButton";
+import { InputContainer, Label, Input } from "./styles";
+import CustomHeaderButton from "../../../components/general/HeaderButton";
+import InputValidation from "../../../components/general/InputValidation/InputValidation";
 
-import Colors from "../../constants/Colors";
-import * as ProductsActions from "../../store/actions/products";
+import * as ProductsActions from "../../../store/actions/products";
 
 const EditProduct = ({ navigation }) => {
   const { id, title, description, imageUrl } = navigation.getParam(
     "productData"
   );
 
-  const dispatch = useDispatch();
-
   const [editTitle, changeTitle] = useInputState(title);
   const [editDescription, changeDescription] = useInputState(description);
   const [editImageUrl, changeImageUrl] = useInputState(imageUrl);
+
+  const titleValidation = inputValidator(editTitle, true, 10, 20);
+  const descriptionValidation = inputValidator(editDescription, true, 20, 100);
+  const imageValidation = inputValidator(editImageUrl, true, null, null);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
     dispatch(
@@ -40,18 +46,19 @@ const EditProduct = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+        <InputContainer>
+          <Label>Title</Label>
+          <Input
             placeholder="Title..."
             autoCapitalize="words"
             value={editTitle}
             onChangeText={changeTitle}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+          <InputValidation validation={titleValidation} />
+        </InputContainer>
+        <InputContainer>
+          <Label>Description</Label>
+          <Input
             placeholder="Description..."
             autoCapitalize="sentences"
             multiline
@@ -59,15 +66,17 @@ const EditProduct = ({ navigation }) => {
             value={editDescription}
             onChangeText={changeDescription}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
+          <InputValidation validation={descriptionValidation} />
+        </InputContainer>
+        <InputContainer>
+          <Label>Image</Label>
+          <Input
             placeholder="Image..."
             value={editImageUrl}
             onChangeText={changeImageUrl}
           />
-        </View>
+          <InputValidation validation={imageValidation} />
+        </InputContainer>
       </View>
     </ScrollView>
   );
@@ -89,18 +98,6 @@ EditProduct.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  inputContainer: {
-    marginHorizontal: 16,
-    marginVertical: 8
-  },
-  input: {
-    fontSize: 18,
-    fontFamily: "raleway-regular",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderBottomColor: Colors.accent,
-    borderBottomWidth: 1
   }
 });
 

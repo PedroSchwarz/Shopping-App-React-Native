@@ -9,8 +9,8 @@ import ProductDetails from "../screens/shop/ProductDetail/ProductDetails";
 import Cart from "../screens/shop/Cart/Cart";
 import Orders from "../screens/shop/Orders/Orders";
 import UserProducts from "../screens/user/UserProducts";
-import NewProduct from "../screens/user/NewProduct";
-import EditProduct from "../screens/user/EditProduct";
+import NewProduct from "../screens/user/NewProduct/NewProduct";
+import EditProduct from "../screens/user/EditProduct/EditProduct";
 
 import Colors from "../constants/Colors";
 

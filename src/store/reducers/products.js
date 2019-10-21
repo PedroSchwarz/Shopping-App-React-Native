@@ -20,8 +20,8 @@ export default (state = initialState, action) => {
         new Date().toString(),
         "u1",
         title,
-        description,
         imageUrl,
+        description,
         Number(price)
       );
       return {
