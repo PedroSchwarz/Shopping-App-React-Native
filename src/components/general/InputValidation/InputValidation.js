@@ -5,13 +5,23 @@ import { Container, Divider, Content, Message } from "./styles";
 
 import Colors from "../../../constants/Colors";
 
-const InputValidation = ({ validation }) => {
+const InputValidation = ({ validation, touched }) => {
   const { valid, message } = validation;
+
+  const setStatus = () => {
+    if (!touched) {
+      return Colors.info;
+    } else if (touched && !valid) {
+      return Colors.error;
+    } else if (touched && valid) {
+      return Colors.success;
+    }
+  };
 
   return (
     <Container>
-      <Divider color={valid ? Colors.success : Colors.error} />
-      {!valid && (
+      <Divider color={setStatus()} />
+      {touched && !valid && (
         <Content>
           <MaterialIcons name="error-outline" size={30} color={Colors.info} />
           <Message textColor={Colors.warning}>{message}</Message>

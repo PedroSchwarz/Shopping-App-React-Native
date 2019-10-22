@@ -1,14 +1,19 @@
 import React, { useEffect, useCallback } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Alert
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
 import useInputState from "../../../hooks/useInputState";
 import inputValidator from "../../../helpers/inputValidator";
 
-import { InputContainer, Label, Input } from "./styles";
 import CustomHeaderButton from "../../../components/general/HeaderButton";
-import InputValidation from "../../../components/general/InputValidation/InputValidation";
+import CustomInput from "../../../components/general/CustomInput/CustomInput";
 
 import * as ProductsActions from "../../../store/actions/products";
 
@@ -28,15 +33,25 @@ const EditProduct = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
-    dispatch(
-      ProductsActions.updateProduct(
-        id,
-        editTitle,
-        editDescription,
-        editImageUrl
-      )
-    );
-    navigation.pop();
+    if (
+      !titleValidation.valid ||
+      !descriptionValidation.valid ||
+      !imageValidation.valid
+    ) {
+      Alert.alert("Something is Off!", "Check the fields before submitting.", [
+        { text: "OK" }
+      ]);
+    } else {
+      dispatch(
+        ProductsActions.updateProduct(
+          id,
+          editTitle,
+          editDescription,
+          editImageUrl
+        )
+      );
+      navigation.pop();
+    }
   }, [editTitle, editDescription, editImageUrl]);
 
   useEffect(() => {
@@ -44,41 +59,41 @@ const EditProduct = ({ navigation }) => {
   }, [handleSubmit]);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <InputContainer>
-          <Label>Title</Label>
-          <Input
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      keyboardVerticalOffset={100}
+    >
+      <ScrollView>
+        <View style={styles.container}>
+          <CustomInput
+            label="Title"
             placeholder="Title..."
             autoCapitalize="words"
             value={editTitle}
             onChangeText={changeTitle}
+            validation={titleValidation}
           />
-          <InputValidation validation={titleValidation} />
-        </InputContainer>
-        <InputContainer>
-          <Label>Description</Label>
-          <Input
+          <CustomInput
+            label="Description"
             placeholder="Description..."
             autoCapitalize="sentences"
             multiline
             numberOfLines={4}
             value={editDescription}
             onChangeText={changeDescription}
+            validation={descriptionValidation}
           />
-          <InputValidation validation={descriptionValidation} />
-        </InputContainer>
-        <InputContainer>
-          <Label>Image</Label>
-          <Input
+          <CustomInput
+            label="Image URL"
             placeholder="Image..."
             value={editImageUrl}
             onChangeText={changeImageUrl}
+            validation={imageValidation}
           />
-          <InputValidation validation={imageValidation} />
-        </InputContainer>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -1,13 +1,18 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { View, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Alert
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import inputValidator from "../../../helpers/inputValidator";
 
-import { InputContainer, Label, Input } from "./styles";
 import CustomHeaderButton from "../../../components/general/HeaderButton";
-import InputValidation from "../../../components/general/InputValidation/InputValidation";
+import CustomInput from "../../../components/general/CustomInput/CustomInput";
 
 import useInputState from "../../../hooks/useInputState";
 import * as ProductsActions from "../../../store/actions/products";
@@ -31,9 +36,11 @@ const NewProduct = ({ navigation }) => {
       !descriptionValidation.valid ||
       !priceValidation.valid ||
       !imageValidation.valid
-    )
-      return;
-    else {
+    ) {
+      Alert.alert("Something is Off!", "Check the fields before submitting.", [
+        { text: "OK" }
+      ]);
+    } else {
       dispatch(
         ProductsActions.createProduct(title, description, imageUrl, price)
       );
@@ -46,51 +53,49 @@ const NewProduct = ({ navigation }) => {
   }, [handleSubmit]);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <InputContainer>
-          <Label>Title</Label>
-          <Input
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      keyboardVerticalOffset={100}
+    >
+      <ScrollView>
+        <View style={styles.container}>
+          <CustomInput
+            label="Title"
             placeholder="Title..."
             autoCapitalize="words"
             value={title}
             onChangeText={changeTitle}
+            validation={titleValidation}
           />
-          <InputValidation validation={titleValidation} />
-        </InputContainer>
-        <InputContainer>
-          <Label>Description</Label>
-          <Input
+          <CustomInput
+            label="Description"
             placeholder="Description..."
             autoCapitalize="sentences"
             multiline
             numberOfLines={4}
             value={description}
             onChangeText={changeDescription}
+            validation={descriptionValidation}
           />
-          <InputValidation validation={descriptionValidation} />
-        </InputContainer>
-        <InputContainer>
-          <Label>Price</Label>
-          <Input
+          <CustomInput
+            label="Price"
             placeholder="Price..."
             keyboardType="number-pad"
             value={price}
             onChangeText={changePrice}
+            validation={priceValidation}
           />
-          <InputValidation validation={priceValidation} />
-        </InputContainer>
-        <InputContainer>
-          <Label>Image URL</Label>
-          <Input
+          <CustomInput
+            label="Image URL"
             placeholder="Image..."
             value={imageUrl}
             onChangeText={changeImageUrl}
+            validation={imageValidation}
           />
-          <InputValidation validation={imageValidation} />
-        </InputContainer>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
