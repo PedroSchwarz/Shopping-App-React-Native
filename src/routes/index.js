@@ -4,7 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import Products from "../screens/shop/Products";
+import Products from "../screens/shop/Products/Products";
 import ProductDetails from "../screens/shop/ProductDetail/ProductDetails";
 import Cart from "../screens/shop/Cart/Cart";
 import Orders from "../screens/shop/Orders/Orders";

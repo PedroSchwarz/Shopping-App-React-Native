@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { useScreens } from "react-native-screens";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
 
 import AppContainer from "./src/routes";
 import ProductReducer from "./src/store/reducers/products";
@@ -18,7 +19,7 @@ const rootRed = combineReducers({
   orders: OrdersReducer
 });
 
-const store = createStore(rootRed);
+const store = createStore(rootRed, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
   return Font.loadAsync({
